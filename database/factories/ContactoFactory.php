@@ -2,18 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Contacto;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- *
- */
 class ContactoFactory extends Factory
 {
     /**
      * Define the model's default state.
-    
      */
     public function definition(): array
     {

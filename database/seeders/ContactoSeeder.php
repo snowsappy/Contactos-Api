@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Contacto;
-use Database\Factories\ContactoFactory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ContactoSeeder extends Seeder

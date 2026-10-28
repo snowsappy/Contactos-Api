@@ -21,15 +21,20 @@ class UsuarioRequest extends FormRequest
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    { 
         return [
-            //
+            'email'=>['required','email'],
+            'password'=> ['required','string'],
+            'device'=>['required','string'],
         ];
     }
 
+    //investigar para que se requiere
     public function messages(){
-        return [
-            'email.required'
-        ];
+       return[
+        'email.required'=>'el correo es requerido',
+        'password.required'=>'por favor ingrese una contraseña',
+        'email.email'=>'correo invalido'
+       ];
     }
 }

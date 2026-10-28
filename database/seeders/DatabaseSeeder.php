@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Contacto;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call([UsuarioSeeder::class,ContactoSeeder::class]);
-       
+        $this->call([UsuarioSeeder::class, ContactoSeeder::class]);
+
     }
 }

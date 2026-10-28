@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsuarioRequest;
 use App\Http\Resources\UsuarioResource;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -9,28 +10,41 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function login(UsuarioRequest $request)
+    {
 
-    public function login(Request $request){
-
-        $usuario=Usuario::where('email','=','$request->email');
+        $usuario = Usuario::where('email', '=', '$request->email');
 
         /*if(!$usuario){
 
-            return response()->json(['email'=>'usuario no encontrado']);
+            return response()->json(['email'=>'usuario inexistente']);
 
         }*/
-        
-        if(!$usuario || Hash::check($request->validated('password'),$usuario->password)){
 
-            return response()->json(['message'=>'correo o contraseña invalido']);
+        if (! $usuario || Hash::check($request->validated('password'), $usuario->password)) {
+
+            return response()->json(['message' => 'correo o contraseña invalido']);
 
         }
-        //estudiar esto que todavia no me lo se bien
-        $token=Usuario::createToken($request->validated('device_name'))->plainTextToken;
-        
-        return response()->json(['message'=>'datos de incio correctos','TokenType'=>'Bearer','usuario_resource'=>new UsuarioResource($usuario)]);
-        
+        // estudiar esto que todavia no me lo se bien
+        $token = Usuario::createToken($request->validated('device'))->plainTextToken;
 
+        return response()->json(['message' => 'datos de incio correctos', 'TokenType' => 'Bearer', 'usuario_resource' => new UsuarioResource($usuario), 'token' => $token]);
 
+    }
+
+    public function me(UsuarioRequest $request)
+    {
+
+        return response()->json(['usuario_resource' => new UsuarioResource($request->usuario)]);
+    }
+
+    public function logout(Request $request)
+    {
+
+        // aprenderse esto
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json()->nocontent();
     }
 }
