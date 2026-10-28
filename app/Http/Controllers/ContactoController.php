@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class ContactoController extends Controller
 {
-    public function obtenercontactos()
+    public function obtenercontactos(Request $request)
     {
 
-        $contactos = Contacto::all();
+        $contactos = Contacto::where('usuario_id','=',$request->usuario_id);
 
         return response()->json(['contactos' => $contactos, 'mensaje' => 'Contactos obtenidos correctamente'], 200);
 
@@ -47,7 +47,9 @@ class ContactoController extends Controller
         if (! $contacto) {
             return response()->json(['mensaje' => 'Contacto no encontrado'], 404);
         }
-        $contacto->destroy($request->id);
+        
+        $contacto=Contacto::findorfail($request->id);
+        $contacto->delete();
 
         return response()->json(['mensaje' => 'Contacto eliminado correctamente'], 200);
     }

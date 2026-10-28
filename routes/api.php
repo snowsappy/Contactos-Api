@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
 
 Route::preffix('v1')->group(function(){
     
-Route::get('/contactos', [ContactoController::class, 'obtenercontactos']);
+Route::get('/contactos', [ContactoController::class, 'obtenercontactos'])->middleware('auth:sanctum');
 
 Route::get('/contactos/{id}', [ContactoController::class, 'obtenerContactosPorId']);
 
