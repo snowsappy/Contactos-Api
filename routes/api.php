@@ -9,17 +9,21 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::preffix('v1')->group(function(){
+Route::prefix('v1')->group(function(){
     
 Route::get('/contactos', [ContactoController::class, 'obtenercontactos'])->middleware('auth:sanctum');
 
-Route::get('/contactos/{id}', [ContactoController::class, 'obtenerContactosPorId']);
 
-Route::post('/contactos', [ContactoController::class, 'agregarContatos']);
+//solo prueba
+Route::get('/contactos/general', [ContactoController::class, 'obtener']);
 
-Route::post('/contactos/{id}', [ContactoController::class, 'modificarContatos']);
+Route::get('/contactos/{id}', [ContactoController::class, 'obtenerContactoPorId'])->middleware('auth:sanctum');
 
-Route::delete('/contactos/{id}', [ContactoController::class, 'eliminarContatos']);
+Route::post('/contactos', [ContactoController::class, 'agregarContatos'])->middleware('auth:sanctum');;
+
+Route::patch('/contactos/{id}', [ContactoController::class, 'modificarContatos'])->middleware('auth:sanctum');;
+
+Route::delete('/contactos/{id}', [ContactoController::class, 'eliminarContatos'])->middleware('auth:sanctum');;
 
 Route::post('/usuario', [AuthController::class])->middleware('auth:sanctum');
 });

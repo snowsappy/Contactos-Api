@@ -23,7 +23,7 @@ class UsuarioRequest extends FormRequest
     public function rules(): array
     { 
         return [
-            'email'=>['required','email'],
+            'email'=>['required','email','unique'],
             'password'=> ['required','string'],
             'device'=>['required','string'],
         ];
@@ -33,6 +33,7 @@ class UsuarioRequest extends FormRequest
     public function messages(){
        return[
         'email.required'=>'el correo es requerido',
+        'email.unique'=>'el email ya existe',
         'password.required'=>'por favor ingrese una contraseña',
         'email.email'=>'correo invalido'
        ];
