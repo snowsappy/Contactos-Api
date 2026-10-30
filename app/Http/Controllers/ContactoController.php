@@ -54,13 +54,13 @@ class ContactoController extends Controller
         return response()->json(['mensaje' => 'Contacto agregado correctamente', 'contacto' => $contacto], 201);
     }
 
-    public function eliminarContatos(Request $request,int $id)
+    public function eliminarContatos(Request $request)
     {
         $contacto = Contacto::find('user_id', $request->user()->id)->first();
         if (! $contacto) {
             return response()->json(['mensaje' => 'Contacto no encontrado'], 404);
         }
-        $contacto=Contacto::where('');
+        $contacto=Contacto::where('user_id','=',$request->user()->id);
         $contacto=Contacto::findorfail($request->id);
         $contacto->delete();
 

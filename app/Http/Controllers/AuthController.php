@@ -33,12 +33,17 @@ class AuthController extends Controller
 
     }
 
-    public function me(UsuarioRequest $request)
+   /* public function me(UsuarioRequest $request)
     {
 
         return response()->json(['usuario_resource' => new UsuarioResource($request->usuario)]);
     }
+    */
+     public function me(Request $request)
+    {
 
+        return new UsuarioResource($request->user());
+    }
     public function logout(Request $request)
     {
 
