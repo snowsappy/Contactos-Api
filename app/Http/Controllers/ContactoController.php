@@ -9,9 +9,12 @@ class ContactoController extends Controller
 {
     public function obtenercontactos(Request $request)
     {
+        
+        $contactos = Contacto::where('usuario_id','=',$request->user()->id)->get();
+        if(!$contactos){
 
-        $contactos = Contacto::where('usuario_id','=',$request->usuario_id);
-
+        return response()->json("no tiene contatos");
+        }
         return response()->json(['contactos' => $contactos, 'mensaje' => 'Contactos obtenidos correctamente'], 200);
 
     }
@@ -26,9 +29,10 @@ class ContactoController extends Controller
     }
     public function obtenerContactoPorId(Request $request)
     {
+        $contacto = Contacto::where('usuario_id','=',$request->user()->id);
         $contacto = Contacto::findorfail($request->id);
         if (! $contacto) {
-            return response()->json(['error' => 'Contacto no encontrado'], 404);
+            return response()->json(['error' => 'Contacto no encontrado'], $contacto);
         }
 
         return response()->json(['contacto' => $contacto], 200);
@@ -47,7 +51,7 @@ class ContactoController extends Controller
             'foto' => $request->foto,
             'email' => $request->email,
             'telefono' => $request->telefono,
-             'usuario_id'=>$request->usuario_id]);
+             'usuario_id'=>$request->user()->id]);
        
         
         
@@ -56,6 +60,7 @@ class ContactoController extends Controller
 
     public function eliminarContatos(Request $request)
     {
+        $contacto = Contacto::where('usuario_id','=',$request->user()->id);
         $contacto = Contacto::find('user_id', $request->user()->id)->first();
         if (! $contacto) {
             return response()->json(['mensaje' => 'Contacto no encontrado'], 404);
@@ -69,6 +74,7 @@ class ContactoController extends Controller
 
     public function modificarContatos(Request $request)
     {
+        $contato = Contacto::where('usuario_id','=',$request->user()->id);
         $contato = Contacto::find($request->id);
         if (! $contato) {
             return response()->json(['contacto' => 'contacto no encontrado'], 404);
