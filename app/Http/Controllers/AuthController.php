@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function login(UsuarioRequest $request)
     {
-        
+
         $usuario = Usuario::where('email', '=', $request->validated('email'))->first();
 
         /*if(!$usuario){
@@ -30,22 +30,23 @@ class AuthController extends Controller
         $token = $usuario->createToken($request->validated('device'))->plainTextToken;
 
         return response()->json(['message' => 'datos de incio correctos',
-        
-         'TokenType' => 'Bearer', 'usuario_resource' => new UsuarioResource($usuario), 'token' => $token]);
+
+            'TokenType' => 'Bearer', 'usuario_resource' => new UsuarioResource($usuario), 'token' => $token]);
 
     }
 
-   /* public function me(UsuarioRequest $request)
-    {
+    /* public function me(UsuarioRequest $request)
+     {
 
-        return response()->json(['usuario_resource' => new UsuarioResource($request->usuario)]);
-    }
-    */
-     public function me(Request $request)
+         return response()->json(['usuario_resource' => new UsuarioResource($request->usuario)]);
+     }
+     */
+    public function me(Request $request)
     {
 
         return new UsuarioResource($request->user());
     }
+
     public function logout(Request $request)
     {
 

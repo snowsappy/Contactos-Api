@@ -9,12 +9,13 @@ class ContactoController extends Controller
 {
     public function obtenercontactos(Request $request)
     {
-        
-        $contactos = Contacto::where('usuario_id','=',$request->user()->id)->get();
-        if(!$contactos){
 
-        return response()->json("no tiene contatos");
+        $contactos = Contacto::where('usuario_id', '=', $request->user()->id)->get();
+        if (! $contactos) {
+
+            return response()->json('no tiene contatos');
         }
+
         return response()->json(['contactos' => $contactos, 'mensaje' => 'Contactos obtenidos correctamente'], 200);
 
     }
@@ -27,9 +28,10 @@ class ContactoController extends Controller
         return response()->json(['contactos' => $contactos, 'mensaje' => 'Contactos obtenidos correctamente'], 200);
 
     }
+
     public function obtenerContactoPorId(Request $request)
     {
-        $contacto = Contacto::where('usuario_id','=',$request->user()->id);
+        $contacto = Contacto::where('usuario_id', '=', $request->user()->id);
         $contacto = Contacto::findorfail($request->id);
         if (! $contacto) {
             return response()->json(['error' => 'Contacto no encontrado'], $contacto);
@@ -43,7 +45,7 @@ class ContactoController extends Controller
 
         $validacion = Contacto::where('telefono', $request->telefono)->first();
         $validacion2 = Contacto::where('email', $request->email)->first();
-         if ($validacion || $validacion2) {
+        if ($validacion || $validacion2) {
             return response()->json(['error' => 'El número de contacto ya existe'], 400);
         }
         $contacto = Contacto::create(['nombre' => $request->nombre,
@@ -51,22 +53,20 @@ class ContactoController extends Controller
             'foto' => $request->foto,
             'email' => $request->email,
             'telefono' => $request->telefono,
-             'usuario_id'=>$request->user()->id]);
-       
-        
-        
+            'usuario_id' => $request->user()->id]);
+
         return response()->json(['mensaje' => 'Contacto agregado correctamente', 'contacto' => $contacto], 201);
     }
 
     public function eliminarContatos(Request $request)
     {
-        $contacto = Contacto::where('usuario_id','=',$request->user()->id);
+        $contacto = Contacto::where('usuario_id', '=', $request->user()->id);
         $contacto = Contacto::find('user_id', $request->user()->id)->first();
         if (! $contacto) {
             return response()->json(['mensaje' => 'Contacto no encontrado'], 404);
         }
-        $contacto=Contacto::where('user_id','=',$request->user()->id);
-        $contacto=Contacto::findorfail($request->id);
+        $contacto = Contacto::where('user_id', '=', $request->user()->id);
+        $contacto = Contacto::findorfail($request->id);
         $contacto->delete();
 
         return response()->json(['mensaje' => 'Contacto eliminado correctamente'], 200);
@@ -74,7 +74,7 @@ class ContactoController extends Controller
 
     public function modificarContatos(Request $request)
     {
-        $contato = Contacto::where('usuario_id','=',$request->user()->id);
+        $contato = Contacto::where('usuario_id', '=', $request->user()->id);
         $contato = Contacto::find($request->id);
         if (! $contato) {
             return response()->json(['contacto' => 'contacto no encontrado'], 404);
