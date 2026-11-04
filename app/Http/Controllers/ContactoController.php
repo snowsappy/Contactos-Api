@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contacto;
+use DomainException;
+use Exception;
 use Illuminate\Http\Request;
 
 class ContactoController extends Controller
@@ -31,18 +33,22 @@ class ContactoController extends Controller
 
     public function obtenerContactoPorId(Request $request)
     {
-        $contacto = Contacto::where('usuario_id', '=', $request->user()->id);
-        $contacto = Contacto::findorfail($request->id);
-        if (! $contacto) {
+        $contacto = Contacto::where('usuario_id', '=', $request->user()->id)->findOrfail($request->id);
+        try{
+
+        }catch(Exception $e){
             return response()->json(['error' => 'Contacto no encontrado'], $contacto);
         }
-
+       
         return response()->json(['contacto' => $contacto], 200);
     }
 
     public function agregarContatos(Request $request)
     {
+        if($request->apellido==null || $request->nombre==null ||  $request->telefono==null ||  $request->email==null){
 
+            return response()->json(['error' => 'faltan campos por rellenar'], 400);        
+        }
         $validacion = Contacto::where('telefono', $request->telefono)->first();
         $validacion2 = Contacto::where('email', $request->email)->first();
         if ($validacion || $validacion2) {
@@ -59,26 +65,31 @@ class ContactoController extends Controller
     }
 
     public function eliminarContatos(Request $request)
-    {
-        $contacto = Contacto::where('usuario_id', '=', $request->user()->id);
-        $contacto = Contacto::find('user_id', $request->user()->id)->first();
-        if (! $contacto) {
-            return response()->json(['mensaje' => 'Contacto no encontrado'], 404);
-        }
-        $contacto = Contacto::where('user_id', '=', $request->user()->id);
-        $contacto = Contacto::findorfail($request->id);
+    {   
+
+    try{
+        $contacto = Contacto::where('usuario_id', $request->user()->id)
+                    ->findOrFail($request->id);
+    }catch(Exception $e){
+
+        return response()->json(['mensaje' => 'Contacto no encontrado'], 404);
+
+    }
+       
+        
         $contacto->delete();
 
         return response()->json(['mensaje' => 'Contacto eliminado correctamente'], 200);
     }
 
     public function modificarContatos(Request $request)
-    {
-        $contato = Contacto::where('usuario_id', '=', $request->user()->id);
-        $contato = Contacto::find($request->id);
-        if (! $contato) {
+    {  
+        try{
+        $contato = Contacto::where('usuario_id', '=', $request->user()->id)->findOrfail($request->id);
+        }catch(Exception $e){
             return response()->json(['contacto' => 'contacto no encontrado'], 404);
         }
+       
 
         $contato->update($request->all());
         $contato->save();

@@ -24,4 +24,5 @@ Route::prefix('v1')->group(function () {
     Route::delete('/contactos/{id}', [ContactoController::class, 'eliminarContatos'])->middleware('auth:sanctum');
     Route::middleware('auth:sanctum')->get('/me', [AuthController::class, 'me']);
     Route::post('/login/usuario', [AuthController::class, 'login'])->middleware();
+    Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
 });

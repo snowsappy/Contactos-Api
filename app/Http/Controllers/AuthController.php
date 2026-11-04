@@ -53,6 +53,6 @@ class AuthController extends Controller
         // aprenderse esto
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json()->nocontent();
+        return response()->json(['mensanje'=>'cerro suu cuenta exitosamente'],200);
     }
 }
