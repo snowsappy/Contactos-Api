@@ -1,5 +1,20 @@
 <?php
 
+function loginData(array $cambios = []): array
+{
+    return array_merge([
+        'email' => 'linda',
+        'password' => 'linda@gmail.com',
+        'device_name' => 'telefono',
+    ], $cambios);
+}
+beforeEach(function () {
+    $this->user( [
+        'email' => 'ana@taskflow.test',
+        'password' => 'secreta123',
+    ]);
+});
+
 test('example', function () {
     $response = $this->get('/');
 
@@ -37,3 +52,10 @@ it('editamos el contacto', function () {
     $this->patchJson('/api/v1/contactos/{id}', ['id' => 5])->assertStatus(401);
 
 });
+
+it('ver un solo contacto',function(){
+
+    $this->getJson('/api/v1/contactos/{id}',['id'=>5])->assertStatus(401);
+});
+
+

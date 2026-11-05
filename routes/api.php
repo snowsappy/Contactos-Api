@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
     Route::patch('/contactos/{id}', [ContactoController::class, 'modificarContatos'])->middleware('auth:sanctum');
 
     Route::delete('/contactos/{id}', [ContactoController::class, 'eliminarContatos'])->middleware('auth:sanctum');
-    Route::middleware('auth:sanctum')->get('/me', [AuthController::class, 'me']);
+    Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
     Route::post('/login/usuario', [AuthController::class, 'login'])->middleware();
     Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
 });
