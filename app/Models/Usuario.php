@@ -15,6 +15,7 @@ class Usuario extends Authenticatable
         'nombre',
         'apellido',
         'email',
+        
         'password',
     ];
 
@@ -27,6 +28,6 @@ class Usuario extends Authenticatable
 
     public function contactos()
     {
-        return $this->hasMany('contactos');
+        return $this->hasMany(Contacto::class);
     }
 }

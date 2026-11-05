@@ -14,7 +14,7 @@ class Contacto extends Model
 
     public function usuario()
     {
-        return $this->belongsTo('usuarios');
+        return $this->belongsTo(Usuario::class);
     }
 
     protected $table = 'contactos';
